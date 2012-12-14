@@ -1,4 +1,4 @@
-=== WP Plugin For Secure Image Pro ===
+=== WP Secure Image Protection ===
 
 Contributors: ArtistScope
 Donate link: http://www.artistscope.com/secure_image_protection.asp
@@ -8,31 +8,29 @@ Tested up to: 3.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Insert Secure Image Pro encrypted images with Domain Lock into posts and pages safe from right-click-save, page-save, drag-n-drop and site grabbers.
-
+Insert encrypted images with Domain Lock into pages and posts copy protected from right-click mouse-save, page-save, drag-n-drop and site grabbers.
 == Description ==
 
-Insert [Secure Image Pro]( http://www.artistscope.com/secure_image_protection.asp) encrypted images to pages and posts from your WordPress page editor that are supported across all web browsers on all operating systems, ie: Windows, Mac, Linux and handheld devices that can use Java.
+Insert [Secure Image Pro]( http://www.artistscope.com/secure_image_protection.asp) encrypted images to pages and posts from your WordPress page editor that are supported across all web browsers on all operating systems, ie: Windows, Mac and Linux. Hand-held devices that can use Java will also be supported.
 
 * Easy install.
 * Upload and embed encrypted images using WordPress native media tools.
-* Insert encrypted images into posts or pages using a media button.
+* Insert [encrypted images](http://www.artistscope.com/image-encryption.asp) into posts or pages using a media button.
 * Images are displayed in a security applet supported on all computers.
 * Ability to set varying levels of protection per page or post.
 * Control which web browsers can access your protected pages.
 * Checks for Java version and redirects for updates and install.
 * Manage settings to control image display options. 
-* Domain locked images are safe from spiders and even your Webmaster.
+* [Domain locked images](http://www.artistscope.com/domain-lock.asp) are safe from spiders and even your Webmaster.
 * Page is also protected from right-click and drag-drop save of all media.
 * Supported in all web browsers.
 * Supported on Windows, Mac, Linux and handheld devices that use Java.
 
 Each page has the option of including Java version check so that if a visitor does not have Java installed, they are redirected with instructions and a download link. Because browser detection is dependent on JavaScript, if a visitor has JavaScript disabled they also will be redirected for instructions on how to correct their browser settings. These support pages are included in the plugin's folder and can be customized to suit your own messages and design.
 
-More information and online demos can be seen at the [Secure Image Pro]( http://www.artistscope.com/secure_image_protection.asp) website. 
+More information and online demos can be seen at the [Secure Image Protection]( http://www.artistscope.com/secure_image_protection.asp) website. 
 
-You can see this plugin and our other WP copy protection plugins in action on our [WordPress demo website](http://wordpress.artistscope.com).
+You can see this plugin and our other WP [copy protection plugins](http://wordpress.artistscope.com) at our WordPress demo site.
 
 
 ** Implementation **
@@ -78,13 +76,13 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 **Other modules**
 
-Secure Image is specially designed to display encrypted images on all computers.
+Secure Image was specially designed to display encrypted images on web pages for all computers. A most versatile yet sophisticated [image protection](http://www.artistscope.com/protect-images.asp) solution that anyone can use.
 
-* The Secure Image converter is available as Windows desktop software.
-* Converter operable by Command-line on Windows computers and servers.
-* Custom DLLs are available to interface CMD version with web scripts.
+* The [Secure Image converter](http://www.artistscope.com/secure_image_protection_gui.asp) is available as Windows desktop software.
+* Converter can be [run by Command-line](http://www.artistscope.com/secure_image_protection_cmd.asp) on Windows computers and servers.
+* Custom DLLs are available to [interface command-line with web page scripts](http://www.artistscope.com/encrypt_image_uploads.asp).
 
 **Alternatives**
 
-While Secure Image provides the most sophisticated image encryption with domain lock, it cannot provide protection from Print Screen or screen capture. However other solutions are available from ArtistScope that do provide such protection from all copy including capture, such as [CopySafe Web]( http://www.artistscope.com/copysafe_web_protection.asp) which is specially designed for images, [CopySafe PDF Protector](http://www.artistscope.com/copysafe_pdf_protection.asp) which is specially designed for PDF documents and [ArtistScope Secure Video](http://www.artistscope.com/secure_video_protection.asp) which is specially designed for video file. For online viewing only, the [ArtistScope Site Protection System (ASPS)](http://www.artistscope.com/artis-secure-web-reader.asp) uses a secure web browser that is properly designed to protect web media rather than expose it. Each of these solutions have WordPress plugins or widgets available for easy integration into your WordPress project.
+While Secure Image provides the most sophisticated image encryption with domain lock, it cannot provide [protection from Print Screen or screen capture](http://www.artistscope.com/prevent-screen-capture.asp). However other solutions are available from ArtistScope that do provide such protection from all copy including capture, such as [CopySafe Web Protection]( http://www.artistscope.com/copysafe_web_protection.asp) which is specially designed for images, [CopySafe PDF Protector](http://www.artistscope.com/copysafe_pdf_protection.asp) which is specially designed for PDF documents and [ArtistScope Secure Video](http://www.artistscope.com/secure_video_protection.asp) which is specially designed for video file. For online viewing only, the [ArtistScope Site Protection System (ASPS)](http://www.artistscope.com/artis-secure-web-reader.asp) uses a secure web browser that is properly designed to protect web media rather than expose it. Each of these solutions have WordPress plugins or widgets available for easy integration into your WordPress project.
 
