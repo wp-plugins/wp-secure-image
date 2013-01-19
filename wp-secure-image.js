@@ -1,26 +1,23 @@
 <!-- hide JavaScript from non-JavaScript browsers
 
 	//  WP Secure Image - Version 5.0.0.0
-	//  Copyright (c) ArtistScope 1998-2012. All Rights Reserved.
+	//  Copyright (c) ArtistScope 1998-2013. All Rights Reserved.
 	//  www.artistscope.com
 	//
 	//  Supported platforms: Windows, Mac, Linux
 
-	//  Copyright (c) 1998-2012 ArtistScope. All Rights Reserved.
-	//  www.artistscope.com
 	//
 	// Special JS version for Wordpress
 
 // Debugging outputs the generated html into a textbox instead of rendering
-//	option has been moved to wp-copysafe-web.php
+//	option has been moved to wp-secure-image.php
 
 // REDIRECTS
 
 var m_szLocation = document.location.href.replace(/&/g,'%26');	
-
-var m_szDownloadNo = "/wp-content/plugins/wp-secure-image/download_no.html";
-var m_szDownloadJava = "/wp-content/plugins/wp-secure-image/download_java.html?ref=" + m_szLocation;
-var m_szDownloadJavaScript = "/wp-content/plugins/wp-secure-image/download_javascript.html?ref=" + m_szLocation;
+var m_szDownloadNo = wpsiw_plugin_url + "download_no.html";
+var m_szDownloadJava = wpsiw_plugin_url + "download_java.html?ref=" + m_szLocation;
+var m_szDownloadJavaScript = wpsiw_plugin_url + "download_javascript.html?ref=" + m_szLocation;
 
 //====================================================
 //   Current version == 4.6.0.6
@@ -167,7 +164,7 @@ function insertSecureImageClass(nWidth, nHeight,
     if (m_szPlugin == "JAVA")
     {
 
-	document.writeln("<app" + "let codebase='/wp-content/plugins/wp-secure-image/' code='ArtistScopeViewer.class' archive='ArtistScopeViewer.jar' id='Artistscope' width='" + nWidth + "' height='" + nHeight + "'>");
+	document.writeln("<app" + "let codebase='" + wpsiw_plugin_url + "' code='ArtistScopeViewer.class' archive='ArtistScopeViewer.jar' id='Artistscope' width='" + nWidth + "' height='" + nHeight + "'>");
  
     document.writeln("<param name='Style' value='ImageLink' />");
     document.writeln("<param name='TextColor' value='" + paramValue(szTextColor, m_szDefaultTextColor) + "' />");
@@ -180,7 +177,7 @@ function insertSecureImageClass(nWidth, nHeight,
     document.writeln("<param name='Message' value='' />");   
     document.writeln("<param name='FrameDelay' value='2000' />");
     document.writeln("<param name='FrameCount' value='1' />");
-    document.writeln("<param name='Frame000' value='/wp-content/uploads/secure-image/" + m_szClassName + "' />");
+    document.writeln("<param name='Frame000' value='" + wpsiw_upload_url + m_szClassName + "' />");
 
     document.writeln("</app" + "let />"); 
 

@@ -3,7 +3,7 @@
 
 	var minversion = "1.4";
 	var m_szReferrer = document.location.href.replace(/&/g,'%26');	
-	var javadownload = "/wp-content/plugins/wp-secure-image/download_java.html?ref=" + m_szReferrer;
+	var javadownload = wpsiw_plugin_url + "download_java.html?ref=" + m_szReferrer;
 	
 function showerror()
 	{

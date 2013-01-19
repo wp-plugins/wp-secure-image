@@ -4,10 +4,10 @@ Plugin Name: Secure Image
 Plugin URI: http://www.artistscope.com/secure_image_protection.asp
 Description: Add encrypted images and control web browser access. With Secure Image software you can use encrypted images and extend copy protection to prevent image saving while displayed online and protect the images that stored on the server even from your webmaster.
 Author: ArtistScope
-Version: 0.1
+Version: 0.2
 Author URI: http://www.artistscope.com/
 
-	Copyright 2012 ArtistScope Pty Limited
+	Copyright 2013 ArtistScope Pty Limited
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -36,207 +36,104 @@ set_time_limit(300);
 # register WordPress menus
 function wpsiw_admin_menus() {
     add_menu_page( 'Secure Image', 'Secure Image', 'publish_posts', 'wpsiw_list' );
-    add_submenu_page( 'wpsiw_list', 'Secure Image List Files', 'List Files', 'publish_posts', 'wpsiw_list', 'wpsiw_admin_page_list' );
+    add_submenu_page( 'wpsiw_list', 'Secure Image All Files', 'All Files', 'publish_posts', 'wpsiw_list', 'wpsiw_admin_page_list' );
     add_submenu_page( 'wpsiw_list', 'Secure Image Settings', 'Settings', 'publish_posts', 'wpsiw_settings', 'wpsiw_admin_page_settings' );
 }
 
 // ============================================================================================================================
 # "List" Page
 function wpsiw_admin_page_list() {
-    // check current user capabilities.
-    if ( !current_user_can( 'publish_posts' ) ) {
-        wp_die( __( 'You do not have sufficient permissions to access this page!' ) );
-    }
-
-    // "Edit" link clicked, proceed
-    $edit_output = '';
-    if ( @$_GET['id'] != false || @$_GET['id'] != null ) {
-        // check securtiy key
-        if ( !wp_verify_nonce( @$_GET['wpsiw_wpnonce'], 'wpsiw_list' ) ) {
-            wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-        }
-
-        // check for action
-        if ( @empty( $_GET['action'] ) ) {
-            wp_die( __( 'Incorrect usage!' ) );
-        }
-
-        // pre-delete file
-        if ( $_GET['action'] == 'del' ) {
-            $id = (int)$_GET['id'];
-            $wpsiw_options = get_option( 'wpsiw_options' );
-
-            // remove class file
-            unlink ( $wpsiw_options['files_list'][$id]['path'] );
-
-            // remove file options
-            //unset ( $wpsiw_options['files_options'][$id] );
-            wpsiw_delete_file_options( $id, $wpsiw_options['files_list'][$id]['name'] );
-
-            // remove from files list
-            unset ( $wpsiw_options['files_list'][$id] );
-
-            update_option( 'wpsiw_options', $wpsiw_options );
-        }
-    }
-
-
-    $msg      = '';
-    $table    = '';
-    $security = wp_create_nonce( 'wpsiw_list' );
-
-    // get files list to display
-    $wpsiw_options = get_option( 'wpsiw_options' );
-    $files_list    = $wpsiw_options['files_list'];
-    if ( count( $files_list ) > 0 ) {
-        foreach( $files_list as $key => $file ) {
-            $file_name = $file['name'];
-            $file_size = $file['size'];
-            $file_date = $file['date'];
-
-            // calculate file size
-            if ( round ( $file_size/1024 ,0 ) > 1 ) {
-                $file_size = round ( $file_size/1024, 0 );
-                $file_size = "$file_size KB";
-            }
-            else {
-                $file_size = "$file_size B";
-            }
-
-            $file_date = date("n/j/Y g:h A");
-
-            $edit_link = '';
-            //$edit_link   = '<a href="'.home_url().'/wp-admin/admin.php?page=wpsiw_list&id='.$key.'&wpsiw_wpnonce='.$security.'&action=edit">Edit</a> | ';
-            $delete_link = '<a href="'.home_url().'/wp-admin/admin.php?page=wpsiw_list&id='.$key.'&wpsiw_wpnonce='.$security.'&action=del">Delete</a>';
-
+		
+    $files = _get_wpsiw_uploadfile_list();
+    
+	foreach ($files as $file) {
+		$link = "<div class='row-actions'>
+					<span><a href='admin.php?page=wpsiw_list&filename={$file["filename"]}&action=del' title=''>Delete</a></span>											
+				</div>" ;
             // prepare table row
-            $table.= '<tr><td>'.$edit_link.$delete_link.'</td><td>'.$file_name.'</td><td>'.$file_size.'</td><td>'.$file_date.'</td></tr>';
-        }
-    }
-    else {
-        $table.= '<tr><td colspan="4">'.__( 'No file uploaded yet.' ).'</td></tr>';
+        $table.= "<tr><td></td><td>{$file["filename"]} {$link}</td><td>{$file["filesize"]}</td><td>{$file["filedate"]}</td></tr>";
     }
 
+	if( !$table ){
+		 $table.= '<tr><td colspan="3">'.__('No file uploaded yet.').'</td></tr>';
+	}
 ?>
 <div class="wrap">
     <div class="icon32" id="icon-file"><br /></div>
     <?php echo $msg; ?>
     <h2>List Class Files</h2>
-    <div id="col-container">
-        <div id="col-right">
-            <div class="col-wrap">
-                <!-- <h3>Edit Class File Options</h3> -->
-                <?php echo $edit_output; ?>
-            </div>
-            <div class="clear"></div>
-        </div>
-        <div id="col-left">
+	    <div id="col-container" style="width:700px;">        
             <div class="col-wrap">
                 <h3>Uploaded Class Files</h3>
                 <table class="wp-list-table widefat">
                     <thead>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>File</th>
-                            <th>Size</th>
-                            <th>Date</th>
-                        </tr>
+                        <tr><th width="5px">&nbsp;</th><th>File</th><th>Size</th><th>Date</th></tr>
                     </thead>
                     <tbody>
                     <?php echo $table; ?>
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>File</th>
-                            <th>Size</th>
-                            <th>Date</th>
-                        </tr>
+                        <tr><th>&nbsp;</th><th>File</th><th>Size</th><th>Date</th></tr>
                     </tfoot>
                 </table>
             </div>
+	    </div>
             <div class="clear"></div>
         </div>
-    </div>
-    <div class="clear"></div>
-</div>
-<div class="clear"></div>
 <?php
 }
 
 // ============================================================================================================================
 # "Settings" page
 function wpsiw_admin_page_settings() {
-    // check current user capabilities.
-    if ( !current_user_can( 'publish_posts' ) ) {
-        wp_die( __( 'You do not have sufficient permissions to access this page!' ) );
-    }
-
-    // check securtiy key
-    if ( !empty( $_POST ) && !wp_verify_nonce( @$_POST['wpsiw_wpnonce'], 'wpsiw_settings' ) ) {
-        wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-    }
-
     $msg='';
-    // settings for msubmitted, proceed
     if ( !empty( $_POST ) ) {
+    	$wpsiw_options = get_option( 'wpsiw_settings' ); 
         extract( $_POST, EXTR_OVERWRITE );
-        $wpsiw_options = get_option( 'wpsiw_options' );
-
-        // check submitted data
-        $plugin_folder = ( empty( $plugin_folder ) ? '' : esc_attr( $plugin_folder ) );
-        $ie = ( empty( $ie ) ? '' : 'checked' );
-        $ff = ( empty( $ff ) ? '' : 'checked' );
-        $ch = ( empty( $ch ) ? '' : 'checked' );
-        $op = ( empty( $op ) ? '' : 'checked' );
-        $sa = ( empty( $sa ) ? '' : 'checked' );
-
-        // update plugin settings
+    	
+    	if( !$upload_path )$upload_path = 'wp-content/uploads/secure-image/';
+    	$upload_path = str_replace( "\\", "/", stripcslashes($upload_path)) ;    	
+    	if(substr($upload_path, -1) != "/")$upload_path .= "/" ;
+    	    	
         $wpsiw_options['settings'] = array(
-                                        'plugin_folder'=> "$plugin_folder",
-                                        'mode'         => "$mode",
-                                        'ie'           => "$ie",
-                                        'ff'           => "$ff",
-                                        'ch'           => "$ch",
-                                        'op'           => "$op",
-                                        'sa'           => "$sa"
+                                        'upload_path'  => $upload_path ,
+        								'max_size'	   => (int)$max_size,
+                                        'mode'         => $mode,
+                                        'ie'           => $ie,
+                                        'ff'           => $ff,
+                                        'ch'           => $ch,
+                                        'op'           => $op,
+                                        'sa'           => $sa
                                     );
 
-        update_option( 'wpsiw_options', $wpsiw_options );
+        $upload_path = ABSPATH . $upload_path ;
+        if( !is_dir($upload_path) )mkdir($upload_path, 0, true)	;
+        
+        update_option( 'wpsiw_settings', $wpsiw_options );
         $msg = '<div class="updated"><p><strong>'.__( 'Settings Saved' ).'</strong></p></div>';
     }
 
-    $security      = wp_create_nonce( 'wpsiw_settings' );
-    $wpsiw_options = get_option( 'wpsiw_options' );
-
-    // get plugin settings to display.
-    $plugin_folder = $wpsiw_options['settings']['plugin_folder'];
-    $mode          = $wpsiw_options['settings']['mode'];
-    $ie            = $wpsiw_options['settings']['ie'];
-    $ff            = $wpsiw_options['settings']['ff'];
-    $ch            = $wpsiw_options['settings']['ch'];
-    $op            = $wpsiw_options['settings']['op'];
-    $sa            = $wpsiw_options['settings']['sa'];
-
+    $wpsiw_options = get_option( 'wpsiw_settings' );
+   	if( $wpsiw_options["settings"] )
+   		extract( $wpsiw_options["settings"], EXTR_OVERWRITE );
     $select = '<option value="demo">Demo Mode</option><option value="licensed">Licensed</option><option value="debug">Debugging Mode</option>';
     $select = str_replace( 'value="'.$mode.'"','value="'.$mode.'" selected',$select);
-
-    $wpsiw_token = wp_create_nonce('wpsiw_token');
-    $url = trailingslashit( plugin_dir_url( __FILE__ ) );
-
 ?>
 <div class="wrap">
     <div class="icon32" id="icon-settings"><br /></div>
     <?php echo $msg; ?>
     <h2>Settings</h2>
     <form action="" method="post">
-    <input type="hidden" value="<?php echo $security; ?>" name="wpsiw_wpnonce" id="wpsiw_wpnonce" />
     <table class="form-table">
         <p><strong>Default settings applied to all protected pages:</strong></p>
     	<tbody>
             <tr>
-    		  <th align="left"><label>Plugin Folder:</label></th>
-    		  <td align="left"> <input value="<?php echo $plugin_folder; ?>" name="plugin_folder" class="regular-text code" type="text"></td>
+	    		  <th align="left"><label>Upload Folder:</label></th>
+	    		  <td align="left"> <input value="<?php echo $upload_path; ?>" name="upload_path" class="regular-text code" type="text"></td>
+	    	    </tr>
+	    	    <tr>
+	    		  <th align="left"><label>Maximum upload size:</label></th>
+	    		  <td align="left"> <input value="<?php echo $max_size; ?>" name="max_size" class="regular-text" style="width:70px;text-align:right;" type="text">&nbsp;KB</td>
     	    </tr>
         	<tr>
         		<th align="left"><label>Mode</label></th>
@@ -244,23 +141,23 @@ function wpsiw_admin_page_settings() {
         	</tr>
             <tr>
     		  <th align="left"><label>Allow IE:</label></th>
-    		  <td align="left"> <input name="ie" type="checkbox" value="1" <?php echo $ie; ?>></td>
+	    		  <td align="left"> <input name="ie" type="checkbox" value="checked" <?php echo $ie; ?>></td>
     	    </tr>
             <tr>
     		  <th align="left"><label>Allow Firefox:</label></th>
-    		  <td align="left"> <input name="ff" type="checkbox" value="1" <?php echo $ff; ?>></td>
+	    		  <td align="left"> <input name="ff" type="checkbox" value="checked" <?php echo $ff; ?>></td>
     	    </tr>
             <tr>
     		  <th align="left"><label>Allow Chrome:</label></th>
-    		  <td align="left"> <input name="ch" type="checkbox" value="1" <?php echo $ch; ?>></td>
+	    		  <td align="left"> <input name="ch" type="checkbox" value="checked" <?php echo $ch; ?>></td>
     	    </tr>
             <tr>
     		  <th align="left"><label>Allow Opera:</label></th>
-    		  <td align="left"> <input name="op" type="checkbox" value="1" <?php echo $op; ?>></td>
+	    		  <td align="left"> <input name="op" type="checkbox" value="checked" <?php echo $op; ?>></td>
     	    </tr>
             <tr>
     		  <th align="left"><label>Allow Safari:</label></th>
-    		  <td align="left"> <input name="sa" type="checkbox" value="1" <?php echo $sa; ?>></td>
+	    		  <td align="left"> <input name="sa" type="checkbox" value="checked" <?php echo $sa; ?>></td>
     	    </tr>
     	</tbody>
     </table>
@@ -277,58 +174,47 @@ function wpsiw_admin_page_settings() {
 // ============================================================================================================================
 # convert shortcode to html output
 function wpsiw_shortcode( $atts ) {
+	global $post ;
+	$postid = $post->ID ;
+    $filename = $atts["name"] ;	
+    
+	if( !file_exists( WPSIW_UPLOAD_PATH . $filename ) )
+		return "<div style='padding:5px 10px;background-color:#fffbcc'><strong>File($filename) don't exist</strong></div>" ;
+	
+	$settings = get_first_class_settings() ;
+	
+	
     // get plugin options
-    $wpsiw_options = get_option( 'wpsiw_options' );
+    $wpsiw_options = get_option( 'wpsiw_settings' );
+	if( $wpsiw_options["settings"] )
+		$settings = wp_parse_args( $wpsiw_options["settings"], $settings );
+	
+	if( $wpsiw_options["classsetting"][$postid][$filename] )
+		$settings = wp_parse_args( $wpsiw_options["classsetting"][$postid][$filename], $settings );
+		
+	$settings = wp_parse_args( $atts, $settings );
 
-    // get given file details
-    $file_key = -1;
-    foreach ( $wpsiw_options['files_list'] as $key => $file ) {
-        if ( $file['name'] == $atts['name'] ) {
-            $file_key = $key;
-            break;
-        }
-    }
-
-    // if given file name correct
-    if ( $file_key > -1 ) {
-        $file    = $wpsiw_options['files_list'][$key];
-        $options = $wpsiw_options['files_options'][$key];
-
-        // set shortcode arguments
-        extract( shortcode_atts( array(
-            'name'            => $options['name'],
-            'border'          => $options['border'],
-            'border_color'    => $options['border_color'],
-            'text_color'      => $options['text_color'],
-            'loading_message' => $options['loading_message'],
-            'java_check'      => $options['java_check'],
-	     'menu_safe'       => $options['menu_safe'],
-            'hyperlink'       => $options['hyperlink'],
-            'target'          => $options['target'],
-            'postid'          => $options['postid'],
-            'plugin_folder'   => $wpsiw_options['settings']['plugin_folder'],
-            'mode'            => $wpsiw_options['settings']['mode'],
-            'ie'              => $wpsiw_options['settings']['ie'],
-            'ff'              => $wpsiw_options['settings']['ff'],
-            'ch'              => $wpsiw_options['settings']['ch'],
-            'op'              => $wpsiw_options['settings']['op'],
-            'sa'              => $wpsiw_options['settings']['sa'],
-        ), $atts ) );
-
-	// convert settings
-
-	if ($ch = 'checked') {$chrome = '1';}
-	if ($ff = 'checked') {$firefox = '1';}
-	if ($op = 'checked') {$opera = '1';}
-	if ($sa = 'checked') {$safari = '1';}
-	if ($ie = 'checked') {$msie = '1';}
-
+	extract( $settings ) ;
+    
+	if ($ch == "checked") {$chrome = '1';}
+	if ($ff == "checked") {$firefox = '1';}
+	if ($op == "checked") {$opera = '1';}
+	if ($sa == "checked") {$safari = '1';}
+	if ($ie == "checked") {$msie = '1';}
+	
+	$plugin_url = WPSIW_PLUGIN_URL ;
+	$plugin_path = WPSIW_PLUGIN_PATH ;
+	$upload_path = WPSIW_UPLOAD_PATH ;
+	$upload_url = WPSIW_UPLOAD_URL ;
 	
         // display output
         $output = <<<html
-	<NOSCRIPT><meta http-equiv="refresh" content="0;url=/wp-content/plugins/wp-secure-image/download_javascript.html"></NOSCRIPT>
-	<script type="text/javascript" src="/wp-content/plugins/wp-secure-image/JavaVersionDisplayApplet.js"></script>
-	
+	<NOSCRIPT><meta http-equiv="refresh" content="0;url={$plugin_url}download_javascript.html"></NOSCRIPT>
+	<script type="text/javascript">
+		var wpsiw_plugin_url = "$plugin_url" ;
+		var wpsiw_upload_url = "$upload_url" ;
+	</script>
+	<script type="text/javascript" src="{$plugin_url}JavaVersionDisplayApplet.js"></script>
 	 <script type="text/javascript">
 	<!-- hide JavaScript from non-JavaScript browsers
 		var m_bpDebugging = false;
@@ -361,6 +247,7 @@ function wpsiw_shortcode( $atts ) {
 		}
 		
 		if (m_bpKeySafe == "1") {
+			
 			var cswbody = document.getElementsByTagName("body")[0];
 				if (m_bpJavaCheck == "1") {
 					cswbody.setAttribute("onload", "showJVMDetails();");
@@ -385,30 +272,23 @@ function wpsiw_shortcode( $atts ) {
 			cswbody.setAttribute("onContextmenu", "return false;");
 			cswbody.setAttribute("onClick", "if(event.button==2||event.button==3){event.preventDefault();event.stopPropagation();return false;}");
 		}
-
-
 		// -->
 	 </script>
-	<APPLET codeBase="/wp-content/plugins/wp-secure-image/" height="0" width="0" code="JavaVersionDisplayApplet.class" name="display"></APPLET>
-	 <script src="/wp-content/plugins/wp-secure-image/wp-secure-image.js" type="text/javascript"></script>
-
+	 <APPLET codeBase="{$plugin_url}" height="0" width="0" code="JavaVersionDisplayApplet.class" name="display"></APPLET>
+	 <script src="{$plugin_url}wp-secure-image.js" type="text/javascript"></script>
 	 <script type="text/javascript">
 		<!-- hide JavaScript from non-JavaScript browsers
 		if ((m_szMode == "licensed") || (m_szMode == "debug")) {
 		insertSecureImage("$name");
 		}
 		else {
-		document.writeln("<img src='/wp-content/plugins/wp-secure-image/images/secure-image-button.png' border='0' alt='Demo mode'>");
+			document.writeln("<img src='{$plugin_url}images/secure-image-button.png' border='0' alt='Demo mode'>");
 		}
 		// -->
 	 </script>
-
 html;
-
        return $output;
     }
-    else return;
-}
 
 // ============================================================================================================================
 # delete short code
@@ -450,25 +330,17 @@ function wpsiw_search_shortcode( $file_name ) {
 
 // ============================================================================================================================
 # delete file options
-function wpsiw_delete_file_options( $id, $file_name ) {
-    $wpsiw_options = get_option( 'wpsiw_options' );
-    $posts         = wpsiw_search_shortcode( $file_name );
-    $file_name     = preg_quote( $file_name,'/' );
-    if ($posts) {
-        foreach ( $posts as $post_id ) {
-            $post = get_post( $post_id );
-            $post->post_content = preg_replace( '/\[secimage name="'.$file_name.'"\]\[\/secimage\]/s', '', $post->post_content);
-            wp_update_post($post);
-
-            foreach ( $wpsiw_options['files_options'] as $key => $options ) {
-                if ( $options['postid'] == $id && $options['file_name'] == $file_name ) {
-                    unset($wpsiw_options['files_options'][$key]);
-                    break;
-                }
-            }
-        }
-        update_option( 'wpsiw_options', $wpsiw_options );
-    }
+function wpsiw_delete_file_options( $file_name ) {
+	$file_name = trim($file_name) ;
+   	$wpsiw_options = get_option( 'wpsiw_settings' );
+   	foreach ($wpsiw_options["classsetting"] as $k => $arr) {
+   		if($wpsiw_options["classsetting"][$k][$file_name]){
+   			unset($wpsiw_options["classsetting"][$k][$file_name]) ;
+   			if( !count($wpsiw_options["classsetting"][$k]) )
+   				unset($wpsiw_options["classsetting"][$k]) ;
+   		}   			
+   	}
+   	update_option( 'wpsiw_settings', $wpsiw_options );
 }
 
 // ============================================================================================================================
@@ -478,7 +350,8 @@ function wpsiw_media_buttons ( $context ) {
     // generate token for links
     $token = wp_create_nonce( 'wpsiw_token' );
     $url = plugin_dir_url( __FILE__ ).'secure-image-media-upload.php?post_id='.$post_ID. '&wpsiw_token='.$token.'&TB_iframe=1';
-    return $context.="<a href='$url' class='thickbox' id='wpsiw_link' title='SecureImage'><img src='".plugin_dir_url( __FILE__ )."/images/secure-image-button.png'></a>";
+    $url = site_url('wp-load.php?wpsiw-popup=file_upload&post_id=' . $post_ID) ;
+    return $context.="<a href='$url' class='thickbox'><img src='".plugin_dir_url( __FILE__ )."/images/secure-image-button.png'></a>";
 }
 
 
@@ -504,9 +377,45 @@ function wpsiw_admin_load_styles() {
 	wp_enqueue_style( 'wpsiw-style' );
 }
 
+function wpsiw_is_admin_postpage(){
+	$chk = false ;
+	$ppage = end(explode("/", $_SERVER["SCRIPT_NAME"])) ;
+	if($ppage == "post-new.php" || $ppage == "post.php" )return true ;
+}
+function wpsiw_includecss_js(){
+	if(!wpsiw_is_admin_postpage())return ;
+	echo "<link rel='stylesheet' href='http://code.jquery.com/ui/1.9.2/themes/redmond/jquery-ui.css' type='text/css' />" ;
+	echo "<link rel='stylesheet' href='" . WPSIW_PLUGIN_URL . "lib/uploadify/uploadify.css' type='text/css' />" ;
+	echo "<link rel='stylesheet' href='" . WPSIW_PLUGIN_URL . "wp-secure-image.css' type='text/css' />" ;
+	echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/uploadify/jquery.min.js'></script>" ;
+	echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/uploadify/jquery.uploadify.min.js'></script>" ;
+	echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/jquery.json-2.3.js'></script>" ;	
+}
 // ============================================================================================================================
 # setup plugin
 function wpsiw_setup () {
+    //----add codding---- 
+	$options = get_option("wpsiw_settings");	
+    define( 'WPSIW_PLUGIN_PATH', str_replace("\\", "/", plugin_dir_path(__FILE__) ) ); //use for include files to other files
+	define( 'WPSIW_PLUGIN_URL' , plugins_url( '/', __FILE__ ) );
+	define( 'WPSIW_UPLOAD_PATH', str_replace("\\", "/", ABSPATH . $options["settings"]["upload_path"] ) ); //use for include files to other files
+	define( 'WPSIW_UPLOAD_URL' , site_url( $options["settings"]["upload_path"] ) );
+		
+	include(WPSIW_PLUGIN_PATH . "function.php") ;  
+	add_action('admin_head', 'wpsiw_includecss_js') ;
+	add_action('wp_ajax_wpsiw_ajaxprocess', 'wpsiw_ajaxprocess' );
+	
+	if ( $_GET['filename'] && $_GET['action'] == 'del' ) {
+        wpsiw_delete_file_options( $_GET['filename'] );
+        if( file_exists( WPSIW_UPLOAD_PATH . $_GET['filename'] ) )unlink ( WPSIW_UPLOAD_PATH . $_GET['filename'] );
+        wp_redirect( 'admin.php?page=wpsiw_list' ) ;
+	}
+		
+	if( isset($_GET['wpsiw-popup']) && $_GET["wpsiw-popup"] == "file_upload" ){			
+		require_once( WPSIW_PLUGIN_PATH . "popup_load.php" );
+	}	
+	//=============================	
+	
     // load js file
     add_action( 'wp_enqueue_scripts', 'wpsiw_load_js' );
 
@@ -535,56 +444,72 @@ function wpsiw_setup () {
 # runs when plugin activated
 function wpsiw_activate () {
     // if this is first activation, setup plugin options
-    if ( !get_option( 'wpsiw_options' ) ) {
+    if ( !get_option( 'wpsiw_settings' ) ) {
         // set plugin folder
-        $plugin_folder = plugin_dir_url( __FILE__ );
-        $plugin_folder = str_replace ( home_url(), '', $plugin_folder );
+	    $upload_dir = 'wp-content/uploads/secure-image/';
+	    	    
         // set default options
         $wpsiw_options['settings'] = array(
-                                        'plugin_folder' => "$plugin_folder",
-                                        'mode'          => "$mode",
-                                        'ie'            => "1",
-                                        'ff'            => "1",
-                                        'ch'            => "1",
-                                        'op'            => "1",
-                                        'sa'            => "1"
+                                        'upload_path' => $upload_dir,
+        								'max_size'		=> 100,
+                                        'mode'          => "demo",
+                                        'ie'            => "checked",
+                                        'ff'            => "checked",
+                                        'ch'            => "checked",
+                                        'op'            => "checked",
+                                        'sa'            => "checked"
                                     );
-        $wpsiw_options['files_options'] = array();
-        $wpsiw_options['files_list']    = array();
-        add_option( 'wpsiw_options' , $wpsiw_options );
-    }
 
+        update_option( 'wpsiw_settings' , $wpsiw_options );
+        
+        $upload_dir = ABSPATH . $upload_dir ;
+        if ( !is_dir( $upload_dir ) ) mkdir( $upload_dir, 0, true );
     // create upload directory if it is not exist
-    $upload_dir = wp_upload_dir();
-    $upload_dir = trailingslashit( $upload_dir['basedir'] ).'secure-image/';
-    if ( !is_dir( $upload_dir ) ) mkdir( $upload_dir );
+    }
+        
 }
 
 // ============================================================================================================================
 # runs when plugin deactivated
 function wpsiw_deactivate () {
     // remove text editor short code
-    remove_shortcode( 'secimage' );
+    // remove_shortcode( 'secimage' );
 }
 
 // ============================================================================================================================
 # runs when plugin deleted.
 function wpsiw_uninstall () {
     // delete all uploaded files
-    $upload_dir = wp_upload_dir();
-    $upload_dir = trailingslashit( $upload_dir['basedir'] ).'secure-image';
-    $dir = scandir( $upload_dir );
+    $default_upload_dir = ABSPATH . 'wp-content/uploads/secure-image/';
+    if( is_dir($default_upload_dir) ){
+	    $dir = scandir( $default_upload_dir );
     foreach ( $dir as $file ) {
         if ( $file != '.' || $file != '..' ) {
-            unlink( $upload_dir.'/'.$file );
-        }
+	            unlink( $default_upload_dir.$file );
+	        }
+	    }
+	    rmdir( $default_upload_dir );
     }
 
     // delete upload directory
-    rmdir( $upload_dir );
+    
+    $options = get_option("wpsiw_settings");
+    $upload_path = ABSPATH . $options["settings"]["upload_path"] ;
+    
+    if( is_dir($upload_path) ){
+    	$dir = scandir( $upload_path );
+	    foreach ( $dir as $file ) {
+	        if ( $file != '.' || $file != '..' ) {
+	            unlink( $upload_path . '/'.$file );
+	        }
+	    }	
+	    // delete upload directory
+	    rmdir( $upload_path );
+    }
+    
 
     // delete plugin options
-    delete_option( 'wpsiw_options' );
+    delete_option( 'wpsiw_settings' );
 
     // unregister short code
     remove_shortcode( 'secimage' );

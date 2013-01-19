@@ -4,11 +4,11 @@ Contributors: ArtistScope
 Donate link: http://www.artistscope.com/secure_image_protection.asp
 Tags: protect, secure, encrypt, image
 Requires at least: 3.0.1
-Tested up to: 3.4
+Tested up to: 3.5
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Insert encrypted images with Domain Lock into pages and posts copy protected from right-click mouse-save, page-save, drag-n-drop and site grabbers.
+Copy protect images. Insert encrypted images with Domain Lock copy protected from right-click mouse-save, page-save, drag-n-drop and site grabbers.
 == Description ==
 
 Insert [Secure Image Pro]( http://www.artistscope.com/secure_image_protection.asp) encrypted images to pages and posts from your WordPress page editor that are supported across all web browsers on all operating systems, ie: Windows, Mac and Linux. Hand-held devices that can use Java will also be supported.
@@ -71,6 +71,17 @@ Nothing that will work on all platforms because it’s not possible to control cap
 2. After uploading or selecting an existing class image, nominate the settings to apply to the page or post.
 3. Here you can nominate the default settings that apply to all Secure Image pages.
 4. A file list can be displayed showing all Secure Image class files that have been uploaded.
+
+== Changelog ==
+
+= 0.2 =
+* Added parameters to shorcode for editing of existing image inserts.
+* Same images can be used on multiple posts with unique settings.
+* Revised default settings options.
+* Revised functions to comply with CodePlex recommendations.
+
+= 0.1 =
+* First release.
 
 == About ==
 
