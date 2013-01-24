@@ -74,6 +74,10 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 0.3 =
+* Added Netscape Navigator browser option in default settings.
+* Fixed bug with progress bar diisplayed when uploading.
+
 = 0.2 =
 * Added parameters to shorcode for editing of existing image inserts.
 * Same images can be used on multiple posts with unique settings.

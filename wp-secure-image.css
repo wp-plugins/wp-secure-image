@@ -1,10 +1,4 @@
-.wpsiw_ajax_process{
-	background: url('images/ajax-process.gif') no-repeat;
-	display:block;
-	width:208px;
-	height:13px;
-	margin-top:5px;
-}
+
 .ac_results {
   border: 1px solid gray;
   background-color: white;
@@ -50,6 +44,13 @@
   }
   #wpcontentt { margin-left: 5px !important; }
   
+.wpsiw_ajax_process{
+	background: url('images/ajax-process.gif') no-repeat;
+	display:block;
+	width:208px;
+	height:13px;
+	margin-top:5px;
+}
 
 #TB_ajaxContent{overflow: hidden;}
 #wpsiw_ajax_process{

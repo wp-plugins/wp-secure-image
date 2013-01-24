@@ -4,7 +4,7 @@ Plugin Name: Secure Image
 Plugin URI: http://www.artistscope.com/secure_image_protection.asp
 Description: Add encrypted images and control web browser access. With Secure Image software you can use encrypted images and extend copy protection to prevent image saving while displayed online and protect the images that stored on the server even from your webmaster.
 Author: ArtistScope
-Version: 0.2
+Version: 0.3
 Author URI: http://www.artistscope.com/
 
 	Copyright 2013 ArtistScope Pty Limited
@@ -102,6 +102,7 @@ function wpsiw_admin_page_settings() {
                                         'ie'           => $ie,
                                         'ff'           => $ff,
                                         'ch'           => $ch,
+        					'nav'	   => $nav,
                                         'op'           => $op,
                                         'sa'           => $sa
                                     );
@@ -152,6 +153,10 @@ function wpsiw_admin_page_settings() {
 	    		  <td align="left"> <input name="ch" type="checkbox" value="checked" <?php echo $ch; ?>></td>
     	    </tr>
             <tr>
+	    		  <th align="left"><label>Allow Navigator:</label></th>
+	    		  <td align="left"> <input name="nav" type="checkbox" value="checked" <?php echo $nav; ?>></td>
+	    	    </tr>
+	            <tr>
     		  <th align="left"><label>Allow Opera:</label></th>
 	    		  <td align="left"> <input name="op" type="checkbox" value="checked" <?php echo $op; ?>></td>
     	    </tr>
@@ -198,9 +203,11 @@ function wpsiw_shortcode( $atts ) {
     
 	if ($ch == "checked") {$chrome = '1';}
 	if ($ff == "checked") {$firefox = '1';}
+	if ($nav == "checked") {$navigator = '1';}
 	if ($op == "checked") {$opera = '1';}
 	if ($sa == "checked") {$safari = '1';}
 	if ($ie == "checked") {$msie = '1';}
+	// echo $nav = ( $navigator == "checked" ) ? true : false ; 
 	
 	$plugin_url = WPSIW_PLUGIN_URL ;
 	$plugin_path = WPSIW_PLUGIN_PATH ;
@@ -227,7 +234,7 @@ function wpsiw_shortcode( $atts ) {
 
 		var m_bpChrome = "$chrome";	
 		var m_bpFx = "$firefox";			// all firefox browsers from version 5 and later
-		var m_bpNav = true;
+		var m_bpNav = "$navigator";
 		var m_bpOpera = "$opera";
 		var m_bpSafari = "$safari";
 		var m_bpMSIE = "$msie";
@@ -384,9 +391,11 @@ function wpsiw_is_admin_postpage(){
 }
 function wpsiw_includecss_js(){
 	if(!wpsiw_is_admin_postpage())return ;
+	global $wp_popup_upload_lib ;
+	if( $wp_popup_upload_lib )return ;
+	$wp_popup_upload_lib = true ;
 	echo "<link rel='stylesheet' href='http://code.jquery.com/ui/1.9.2/themes/redmond/jquery-ui.css' type='text/css' />" ;
 	echo "<link rel='stylesheet' href='" . WPSIW_PLUGIN_URL . "lib/uploadify/uploadify.css' type='text/css' />" ;
-	echo "<link rel='stylesheet' href='" . WPSIW_PLUGIN_URL . "wp-secure-image.css' type='text/css' />" ;
 	echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/uploadify/jquery.min.js'></script>" ;
 	echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/uploadify/jquery.uploadify.min.js'></script>" ;
 	echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/jquery.json-2.3.js'></script>" ;	
@@ -456,6 +465,7 @@ function wpsiw_activate () {
                                         'ie'            => "checked",
                                         'ff'            => "checked",
                                         'ch'            => "checked",
+        					'nav'		=> "checked",
                                         'op'            => "checked",
                                         'sa'            => "checked"
                                     );
