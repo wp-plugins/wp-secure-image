@@ -1,4 +1,4 @@
-=== WP Secure Image Protection ===
+=== Secure Image Protection ===
 
 Contributors: ArtistScope
 Donate link: http://www.artistscope.com/secure_image_protection.asp
