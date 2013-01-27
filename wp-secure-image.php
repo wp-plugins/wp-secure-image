@@ -1,13 +1,14 @@
 <?php
 /*
-Plugin Name: Secure Image
+Plugin Name: Secure Image Protection
 Plugin URI: http://www.artistscope.com/secure_image_protection.asp
-Description: Add encrypted images and control web browser access. With Secure Image software you can use encrypted images and extend copy protection to prevent image saving while displayed online and protect the images that stored on the server even from your webmaster.
+Description: Copy protect images by using encrypted images and control web browser access. With Secure Image you can use encrypted images and extend copy protection to prevent image saving while displayed online and stored on the server, even from your webmaster.
 Author: ArtistScope
 Version: 0.3
 Author URI: http://www.artistscope.com/
 
 	Copyright 2013 ArtistScope Pty Limited
+
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -96,15 +97,15 @@ function wpsiw_admin_page_settings() {
     	if(substr($upload_path, -1) != "/")$upload_path .= "/" ;
     	    	
         $wpsiw_options['settings'] = array(
-                                        'upload_path'  => $upload_path ,
-        								'max_size'	   => (int)$max_size,
-                                        'mode'         => $mode,
-                                        'ie'           => $ie,
-                                        'ff'           => $ff,
-                                        'ch'           => $ch,
-        					'nav'	   => $nav,
-                                        'op'           => $op,
-                                        'sa'           => $sa
+                                        'upload_path' 	=> $upload_path ,
+        				'max_size'	=> (int)$max_size,
+                                        'mode'		=> $mode,
+                                        'ie'		=> $ie,
+                                        'ff'		=> $ff,
+                                        'ch'		=> $ch,
+        				'nav'		=> $nav,
+                                        'op'		=> $op,
+                                        'sa'		=> $sa
                                     );
 
         $upload_path = ABSPATH . $upload_path ;
@@ -358,7 +359,7 @@ function wpsiw_media_buttons ( $context ) {
     $token = wp_create_nonce( 'wpsiw_token' );
     $url = plugin_dir_url( __FILE__ ).'secure-image-media-upload.php?post_id='.$post_ID. '&wpsiw_token='.$token.'&TB_iframe=1';
     $url = site_url('wp-load.php?wpsiw-popup=file_upload&post_id=' . $post_ID) ;
-    return $context.="<a href='$url' class='thickbox'><img src='".plugin_dir_url( __FILE__ )."/images/secure-image-button.png'></a>";
+    return $context.="<a href='$url' class='thickbox'><img src='".plugin_dir_url( __FILE__ )."images/secure-image-button.png'></a>";
 }
 
 
@@ -366,7 +367,7 @@ function wpsiw_media_buttons ( $context ) {
 # browser detector js file
 function wpsiw_load_js() {
     // load custom JS file
-	wp_enqueue_script( 'wpsiw-browser-detector', plugins_url( '/browser_detection.js', __FILE__), array( 'jquery' ) );
+    // wp_enqueue_script( 'wpsiw-browser-detector', plugins_url( 'browser_detection.js', __FILE__), array( 'jquery' ) );
 }
 
 // ============================================================================================================================
@@ -380,7 +381,7 @@ function wpsiw_admin_load_js() {
 # admin page styles
 function wpsiw_admin_load_styles() {
     // register custom CSS file & load
-    wp_register_style( 'wpsiw-style', plugins_url( '/wp-secure-image.css', __FILE__ ) );
+    wp_register_style( 'wpsiw-style', plugins_url( 'wp-secure-image.css', __FILE__ ) );
 	wp_enqueue_style( 'wpsiw-style' );
 }
 
@@ -460,12 +461,12 @@ function wpsiw_activate () {
         // set default options
         $wpsiw_options['settings'] = array(
                                         'upload_path' => $upload_dir,
-        								'max_size'		=> 100,
+        				'max_size'	=> 100,
                                         'mode'          => "demo",
                                         'ie'            => "checked",
                                         'ff'            => "checked",
                                         'ch'            => "checked",
-        					'nav'		=> "checked",
+        				'nav'		=> "checked",
                                         'op'            => "checked",
                                         'sa'            => "checked"
                                     );

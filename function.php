@@ -55,21 +55,15 @@ function wpsiw_sget_parameters($param){
 
 function get_first_class_settings(){
 	$settings = array(
-//				'mode'            => '',
-//				'plugin_folder'   => WPSIW_PLUGIN_PATH . "secure-image/",
-				'java_check'      => 0,
-				'key_safe'        => 0,
-//				'ie'			  => 'checked',
-//				'ff'			  => 'checked',	
-//				'ch'			  => 'checked',
-//				'sa'			  => 'checked',						
-//				'op'		 	  => 'checked',				
-	            'border'          => 0,
-	            'border_color'    => '000000',
-	            'text_color'      => 'FFFFFF',
-	            'loading_message' => 'Image loading...',
-	            'hyperlink'       => '',
-		     	'target'          => "_top",			         
+
+		'java_check'      => 0,
+		'key_safe'        => 0,			
+		'border'          => 0,
+		'border_color'    => '000000',
+		'text_color'      => 'FFFFFF',
+		'loading_message' => 'Image loading...',
+		'hyperlink'       => '',
+		'target'          => "_top",			         
 			) ;
 	return 	$settings ;	
 }
@@ -148,7 +142,7 @@ function wpsiw_file_search($param){
 							  </tr>
 							  <tr>
 							    <td align='left'>&nbsp;</td>
-							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Color of the text message that is displayed in the image area sas the image downloads.' /></td>
+							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Color of the text message that is displayed in the image area as the image downloads.' /></td>
 							    <td align='left'>Text color:</td>
 							    <td> 
 							      <input name='text_color' id='wpsiw_text_color' type='text' value='$text_color' size='7' />
@@ -156,7 +150,7 @@ function wpsiw_file_search($param){
 							  </tr>
 							  <tr>
 							    <td align='left'>&nbsp;</td>
-							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Check this box to disable use of the keyboard when the class image loads.' /></td>
+							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Check this box to disable use of the keyboard when this encrypted image loads.' /></td>
 							    <td align='left'>KeySafe:</td>
 							    <td> 
 							      <input name='key_safe' id='wpsiw_key_safe' type='checkbox' value='1' $key_safe>
@@ -164,7 +158,7 @@ function wpsiw_file_search($param){
 							  </tr>
 							  <tr>
 							    <td align='left'>&nbsp;</td>
-							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' onClick='MM_popupMsg('Check this box to add Java version detection to teh page.')' /></td>
+							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Check this box to add Java version detection to the page.' /></td>
 							    <td align='left'>Java Check:</td>
 							    <td> 
 							      <input name='java_check' id='wpsiw_java_check' type='checkbox' value='1' $java_check />
@@ -172,7 +166,7 @@ function wpsiw_file_search($param){
 							  </tr>
 							  <tr>
 							    <td align='left'>&nbsp;</td>
-							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Set the message to display as this class image loads.' /></td>
+							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Set the message to display as this encrypted image loads.' /></td>
 							    <td align='left'>Loading message:&nbsp;</td>
 							    <td> 
 							      <input name='loading_message' id='wpsiw_loading_message' type='text' value='$loading_message' size='30' />
