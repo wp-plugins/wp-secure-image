@@ -74,6 +74,9 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 0.4 =
+* Updated to support JQuery 1.8.
+
 = 0.3 =
 * Added Netscape Navigator browser option in default settings.
 * Fixed bug with progress bar diisplayed when uploading.

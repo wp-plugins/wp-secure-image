@@ -4,7 +4,7 @@ Plugin Name: Secure Image
 Plugin URI: http://www.artistscope.com/secure_image_protection.asp
 Description: Copy protect images by using encrypted images and control web browser access. With Secure Image you can use encrypted images and extend copy protection to prevent image saving while displayed online and stored on the server, even from your webmaster.
 Author: ArtistScope
-Version: 0.3
+Version: 0.4
 Author URI: http://www.artistscope.com/
 
 	Copyright 2013 ArtistScope Pty Limited
@@ -290,7 +290,7 @@ function wpsiw_shortcode( $atts ) {
 		insertSecureImage("$name");
 		}
 		else {
-			document.writeln("<img src='{$plugin_url}images/secure-image-button.png' border='0' alt='Demo mode'>");
+			document.writeln("<img src='{$plugin_url}images/image_placeholder.jpg' border='0' alt='Demo mode'>");
 		}
 		// -->
 	 </script>
@@ -397,9 +397,13 @@ function wpsiw_includecss_js(){
 	$wp_popup_upload_lib = true ;
 	echo "<link rel='stylesheet' href='http://code.jquery.com/ui/1.9.2/themes/redmond/jquery-ui.css' type='text/css' />" ;
 	echo "<link rel='stylesheet' href='" . WPSIW_PLUGIN_URL . "lib/uploadify/uploadify.css' type='text/css' />" ;
-	echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/uploadify/jquery.min.js'></script>" ;
-	echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/uploadify/jquery.uploadify.min.js'></script>" ;
-	echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/jquery.json-2.3.js'></script>" ;	
+	// echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/uploadify/jquery.min.js'></script>" ;
+	// echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/uploadify/jquery.uploadify.min.js'></script>" ;
+	// echo "<script type='text/javascript' src='" . WPSIW_PLUGIN_URL . "lib/jquery.json-2.3.js'></script>" ;	
+	
+	wp_enqueue_script( 'jquery');
+	wp_enqueue_script( 'uploadify.min', false, array('jquery'));
+	wp_enqueue_script( 'jquery.json', false, array('jquery'));	
 }
 // ============================================================================================================================
 # setup plugin
@@ -448,6 +452,9 @@ function wpsiw_setup () {
             add_action( 'media_buttons_context', 'wpsiw_media_buttons' );
         }
     }
+    
+	wp_register_script( 'uploadify.min', WPSIW_PLUGIN_URL . 'lib/uploadify/jquery.uploadify.min.js');
+	wp_register_script( 'jquery.json', WPSIW_PLUGIN_URL . 'lib/jquery.json-2.3.js');
 }
 
 // ============================================================================================================================
