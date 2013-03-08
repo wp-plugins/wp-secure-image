@@ -74,6 +74,9 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 0.5 =
+* Removed dependency on wp-load.php
+
 = 0.4 =
 * Updated to support JQuery 1.8.
 

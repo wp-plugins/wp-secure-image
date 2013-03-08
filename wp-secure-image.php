@@ -4,7 +4,7 @@ Plugin Name: Secure Image
 Plugin URI: http://www.artistscope.com/secure_image_protection.asp
 Description: Copy protect images by using encrypted images and control web browser access. With Secure Image you can use encrypted images and extend copy protection to prevent image saving while displayed online and stored on the server, even from your webmaster.
 Author: ArtistScope
-Version: 0.4
+Version: 0.5
 Author URI: http://www.artistscope.com/
 
 	Copyright 2013 ArtistScope Pty Limited
@@ -92,9 +92,11 @@ function wpsiw_admin_page_settings() {
     	$wpsiw_options = get_option( 'wpsiw_settings' ); 
         extract( $_POST, EXTR_OVERWRITE );
     	
-    	if( !$upload_path )$upload_path = 'wp-content/uploads/secure-image/';
+		if (!$upload_path)
+			$upload_path = 'wp-content/uploads/secure-image/';
     	$upload_path = str_replace( "\\", "/", stripcslashes($upload_path)) ;    	
-    	if(substr($upload_path, -1) != "/")$upload_path .= "/" ;
+		if (substr($upload_path, -1) != "/")
+			$upload_path .= "/";
     	    	
         $wpsiw_options['settings'] = array(
                                         'upload_path' 	=> $upload_path ,
@@ -109,7 +111,8 @@ function wpsiw_admin_page_settings() {
                                     );
 
         $upload_path = ABSPATH . $upload_path ;
-        if( !is_dir($upload_path) )mkdir($upload_path, 0, true)	;
+		if (!is_dir($upload_path))
+			mkdir($upload_path, 0, true);
         
         update_option( 'wpsiw_settings', $wpsiw_options );
         $msg = '<div class="updated"><p><strong>'.__( 'Settings Saved' ).'</strong></p></div>';
@@ -202,12 +205,24 @@ function wpsiw_shortcode( $atts ) {
 
 	extract( $settings ) ;
     
-	if ($ch == "checked") {$chrome = '1';}
-	if ($ff == "checked") {$firefox = '1';}
-	if ($nav == "checked") {$navigator = '1';}
-	if ($op == "checked") {$opera = '1';}
-	if ($sa == "checked") {$safari = '1';}
-	if ($ie == "checked") {$msie = '1';}
+	if ($ch == "checked") {
+		$chrome = '1';
+	}
+	if ($ff == "checked") {
+		$firefox = '1';
+	}
+	if ($nav == "checked") {
+		$navigator = '1';
+	}
+	if ($op == "checked") {
+		$opera = '1';
+	}
+	if ($sa == "checked") {
+		$safari = '1';
+	}
+	if ($ie == "checked") {
+		$msie = '1';
+	}
 	// echo $nav = ( $navigator == "checked" ) ? true : false ; 
 	
 	$plugin_url = WPSIW_PLUGIN_URL ;
@@ -358,7 +373,7 @@ function wpsiw_media_buttons ( $context ) {
     // generate token for links
     $token = wp_create_nonce( 'wpsiw_token' );
     $url = plugin_dir_url( __FILE__ ).'secure-image-media-upload.php?post_id='.$post_ID. '&wpsiw_token='.$token.'&TB_iframe=1';
-    $url = site_url('wp-load.php?wpsiw-popup=file_upload&post_id=' . $post_ID) ;
+	$url = admin_url('?wpsiw-popup=file_upload&post_id=' . $post_ID);
     return $context.="<a href='$url' class='thickbox'><img src='".plugin_dir_url( __FILE__ )."images/secure-image-button.png'></a>";
 }
 
@@ -388,12 +403,15 @@ function wpsiw_admin_load_styles() {
 function wpsiw_is_admin_postpage(){
 	$chk = false ;
 	$ppage = end(explode("/", $_SERVER["SCRIPT_NAME"])) ;
-	if($ppage == "post-new.php" || $ppage == "post.php" )return true ;
+	if ($ppage == "post-new.php" || $ppage == "post.php")
+		return true;
 }
 function wpsiw_includecss_js(){
-	if(!wpsiw_is_admin_postpage())return ;
+	if (!wpsiw_is_admin_postpage())
+		return;
 	global $wp_popup_upload_lib ;
-	if( $wp_popup_upload_lib )return ;
+	if ($wp_popup_upload_lib)
+		return;
 	$wp_popup_upload_lib = true ;
 	echo "<link rel='stylesheet' href='http://code.jquery.com/ui/1.9.2/themes/redmond/jquery-ui.css' type='text/css' />" ;
 	echo "<link rel='stylesheet' href='" . WPSIW_PLUGIN_URL . "lib/uploadify/uploadify.css' type='text/css' />" ;
@@ -421,12 +439,14 @@ function wpsiw_setup () {
 	
 	if ( $_GET['filename'] && $_GET['action'] == 'del' ) {
         wpsiw_delete_file_options( $_GET['filename'] );
-        if( file_exists( WPSIW_UPLOAD_PATH . $_GET['filename'] ) )unlink ( WPSIW_UPLOAD_PATH . $_GET['filename'] );
+		if (file_exists(WPSIW_UPLOAD_PATH . $_GET['filename']))
+			unlink(WPSIW_UPLOAD_PATH . $_GET['filename']);
         wp_redirect( 'admin.php?page=wpsiw_list' ) ;
 	}
 		
 	if( isset($_GET['wpsiw-popup']) && $_GET["wpsiw-popup"] == "file_upload" ){			
 		require_once( WPSIW_PLUGIN_PATH . "popup_load.php" );
+		exit();
 	}	
 	//=============================	
 	
@@ -481,7 +501,8 @@ function wpsiw_activate () {
         update_option( 'wpsiw_settings' , $wpsiw_options );
         
         $upload_dir = ABSPATH . $upload_dir ;
-        if ( !is_dir( $upload_dir ) ) mkdir( $upload_dir, 0, true );
+		if (!is_dir($upload_dir))
+			mkdir($upload_dir, 0, true);
     // create upload directory if it is not exist
     }
         
