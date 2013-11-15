@@ -1,6 +1,6 @@
 <!-- hide JavaScript from non-JavaScript browsers
 
-	//  WP Secure Image - Version 0.3
+	//  WP Secure Image - Version 0.6
 	//  Copyright (c) ArtistScope 1998-2013. All Rights Reserved.
 	//  www.artistscope.com
 	//
@@ -46,7 +46,7 @@ var m_bWinxp = ((m_szAgent.indexOf("windows nt 5.1")!=-1) || (m_szAgent.indexOf(
 var m_bWin2k3 = (m_szAgent.indexOf("windows nt 5.2")!=-1);	
 var m_bVista = (m_szAgent.indexOf("windows nt 6.0")!=-1);
 var m_bWindows7 = (m_szAgent.indexOf("windows nt 6.1")!=-1);
-var m_bWindows8 = (m_szAgent.indexOf("windows nt 6.2")!=-1);
+var m_bWindows8 = ((m_szAgent.indexOf("windows nt 6.2")!=-1) || (m_szAgent.indexOf("windows nt 6.3")!=-1));
 var m_bWindows = (((m_bWin2k) || (m_bWinxp) || (m_bWin2k3) || (m_bVista) || (m_bWindows7) || (m_bWindows8)) && ((m_bWin32) || (m_bWin64)));
 var m_bMacintosh = ((m_szPlatform.indexOf("mac")!=-1) || (m_szAgent.indexOf("mac")!=-1));
 var m_sbLinux = ((m_szPlatform.indexOf("x11")!=-1) || (m_szPlatform.indexOf("linux i686")!=-1));

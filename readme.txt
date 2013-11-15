@@ -74,6 +74,9 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 0.6 =
+* Added detection for Windows 8.1
+
 = 0.5 =
 * Removed dependency on wp-load.php
 
