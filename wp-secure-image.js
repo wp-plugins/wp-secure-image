@@ -1,7 +1,7 @@
 <!-- hide JavaScript from non-JavaScript browsers
 
-	//  WP Secure Image - Version 0.6
-	//  Copyright (c) ArtistScope 1998-2013. All Rights Reserved.
+	//  WP Secure Image - Version 0.7
+	//  Copyright (c) ArtistScope 1998-2014. All Rights Reserved.
 	//  www.artistscope.com
 	//
 	//  Supported platforms: Windows, Mac, Linux
@@ -164,7 +164,7 @@ function insertSecureImageClass(nWidth, nHeight,
     if (m_szPlugin == "JAVA")
     {
 
-	document.writeln("<app" + "let codebase='" + wpsiw_plugin_url + "' code='ArtistScopeViewer.class' archive='ArtistScopeViewer.jar' id='Artistscope' width='" + nWidth + "' height='" + nHeight + "'>");
+	document.writeln("<app" + "let codebase='" + wpsiw_plugin_url + "' code='com.artistscope.ArtistScopeViewer.class' archive='ArtistScopeViewer501.jar' id='Artistscope' width='" + nWidth + "' height='" + nHeight + "'>");
  
     document.writeln("<param name='Style' value='ImageLink' />");
     document.writeln("<param name='TextColor' value='" + paramValue(szTextColor, m_szDefaultTextColor) + "' />");
@@ -179,6 +179,7 @@ function insertSecureImageClass(nWidth, nHeight,
     document.writeln("<param name='FrameCount' value='1' />");
     document.writeln("<param name='Frame000' value='" + wpsiw_upload_url + m_szClassName + "' />");
 
+    document.writeln("<param name='permissions' value='sandbox' />");
     document.writeln("</app" + "let />"); 
 
     if (m_bpDebugging == true)

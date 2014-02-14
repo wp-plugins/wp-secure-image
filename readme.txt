@@ -74,6 +74,10 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 0.7 =
+* Updated applet JAR file to comply with new browser security.
+* Addedd new applet parameter for "permissions".
+
 = 0.6 =
 * Added detection for Windows 8.1
 
