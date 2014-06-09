@@ -82,13 +82,25 @@ if ( !empty( $_FILES ) ) {
     $file_size      = $wpsiw_file['size'];
     $file_extension = pathinfo( $file_name, PATHINFO_EXTENSION );
     $upload_path    = $_POST["upload_path"] . $file_name ;
-   
+    /* old
     // there is no error, proceed
     if ( $file_error == 0 ) {
         // move uploaded file to upload directory
         if ( !move_uploaded_file( $file_tmp_name, $upload_path ) ) {
             $file_error = 7 ;
         }
+    }
+	*/
+	$fileTypes = array('class');
+	if (in_array($file_extension,$fileTypes)) {
+		if ( $file_error == 0 ) {
+			if ( !move_uploaded_file( $file_tmp_name, $upload_path ) ) {
+				$file_error = 7 ;
+			}
+		}
+	} else {
+		$file_error = 7 ;//'Invalid file type.';
+		
     }
 }
 echo $file_error ;
