@@ -75,7 +75,7 @@ Nothing that will work on all platforms because it’s not possible to control cap
 == Changelog ==
 
 = 0.8 =
-* Fixed security flaw in upload that was permitted by WordPress.
+* Fixed security flaw in upload function.
 * Tested and aproved for WordPress 3.9.
 
 = 0.7 =

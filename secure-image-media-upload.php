@@ -3,7 +3,9 @@
 	$wpsiw_options = get_option("wpsiw_settings") ;
 	$max_size = ($wpsiw_options["settings"]["max_size"]) ? $wpsiw_options["settings"]["max_size"] : 100 ;
 	$upload_path = $wpsiw_options["settings"]["upload_path"] ;
-	
+	$timestamp = time();
+	$token = md5('unique_salt' . $timestamp);
+	$_SESSION['token']=$token;
 ?>
 
                     <div class="wrap" id="wpsiw_div" title="SecureImage">
@@ -43,6 +45,9 @@
 			<input type="hidden" value="<?php echo WPSIW_PLUGIN_PATH;?>" id="plugin-dir" />	
 			<input type="hidden" value="<?php echo WPSIW_UPLOAD_PATH;?>" id="upload-path" />
 			<input type="hidden" value="<?php echo $max_size;?>" id="upload-max-size" />		
+			<input type="hidden" value="<?php echo $timestamp;?>" id="token_timestamp" />
+			<input type="hidden" value="<?php echo $token;?>" id="token" />
+			
                                 <div class="clear"></div>
                             </div>
 

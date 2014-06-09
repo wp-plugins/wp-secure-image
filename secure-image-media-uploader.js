@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
     	'method'   		 : 'post',
 		'swf'       	 : pluginurl+'lib/uploadify/uploadify.swf',
 		'uploader'       : pluginurl+'lib/uploadify/uploadify.php',
-		'formData'		 : {'upload_path' : upload_path},
+		'formData'		 : {'upload_path' : upload_path, 'token_timestamp': jQuery("#token_timestamp").val(), 'token': jQuery("#token").val()},
 		'height'		 : 20,
 		'width'			 : 104,
 		'buttonImage'  	 : pluginurl+'lib/uploadify/file_select.png',		
