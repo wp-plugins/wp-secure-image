@@ -74,6 +74,10 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 0.9 =
+* Improved security to prevent remote execution.
+* Simplified Java check. and redirection for download.
+
 = 0.8 =
 * Fixed security flaw in upload function.
 * Tested and aproved for WordPress 3.9.

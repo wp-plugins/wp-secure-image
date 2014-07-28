@@ -4,7 +4,7 @@ Plugin Name: Secure Image
 Plugin URI: http://www.artistscope.com/secure_image_protection.asp
 Description: Copy protect images by using encrypted images and control web browser access. With Secure Image you can use encrypted images and extend copy protection to prevent image saving while displayed online and stored on the server, even from your webmaster.
 Author: ArtistScope
-Version: 0.8
+Version: 0.9
 Author URI: http://www.artistscope.com/
 
 	Copyright 2014 ArtistScope Pty Limited
@@ -237,7 +237,7 @@ function wpsiw_shortcode( $atts ) {
 		var wpsiw_plugin_url = "$plugin_url" ;
 		var wpsiw_upload_url = "$upload_url" ;
 	</script>
-	<script type="text/javascript" src="{$plugin_url}JavaVersionDisplayApplet.js"></script>
+	<script type="text/javascript" src="{$plugin_url}JavaCheck.js"></script>
 	 <script type="text/javascript">
 	<!-- hide JavaScript from non-JavaScript browsers
 		var m_bpDebugging = false;
@@ -272,10 +272,6 @@ function wpsiw_shortcode( $atts ) {
 		if (m_bpKeySafe == "1") {
 			
 			var cswbody = document.getElementsByTagName("body")[0];
-				if (m_bpJavaCheck == "1") {
-					cswbody.setAttribute("onload", "showJVMDetails();");
-				}
-			cswbody.setAttribute("onload", "showJVMDetails();");
 			cswbody.setAttribute("onselectstart", "return false;");
 			cswbody.setAttribute("ondragstart", "return false");
 			cswbody.setAttribute("onmousedown", "if (event.preventDefault){event.preventDefault();}");
@@ -285,9 +281,6 @@ function wpsiw_shortcode( $atts ) {
 		}
 		else {
 			var cswbody = document.getElementsByTagName("body")[0];
-				if (m_bpJavaCheck == "1") {
-					cswbody.setAttribute("onload", "showJVMDetails();");
-				}
 			cswbody.setAttribute("onselectstart", "return false;");
 			cswbody.setAttribute("ondragstart", "return false");
 		//	cswbody.setAttribute("onmousedown", "if (event.preventDefault){event.preventDefault();}");
@@ -297,7 +290,6 @@ function wpsiw_shortcode( $atts ) {
 		}
 		// -->
 	 </script>
-	 <APPLET codeBase="{$plugin_url}" height="0" width="0" code="JavaVersionDisplayApplet.class" name="display"></APPLET>
 	 <script src="{$plugin_url}wp-secure-image.js" type="text/javascript"></script>
 	 <script type="text/javascript">
 		<!-- hide JavaScript from non-JavaScript browsers
@@ -433,6 +425,7 @@ function wpsiw_setup () {
 	define( 'WPSIW_UPLOAD_PATH', str_replace("\\", "/", ABSPATH . $options["settings"]["upload_path"] ) ); //use for include files to other files
 	define( 'WPSIW_UPLOAD_URL' , site_url( $options["settings"]["upload_path"] ) );
 		
+	include(WPSIW_PLUGIN_PATH . "login-status.php");
 	include(WPSIW_PLUGIN_PATH . "function.php") ;  
 	add_action('admin_head', 'wpsiw_includecss_js') ;
 	add_action('wp_ajax_wpsiw_ajaxprocess', 'wpsiw_ajaxprocess' );

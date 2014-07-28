@@ -5,8 +5,6 @@ Copyright (c) 2012 Reactive Apps, Ronnie Garcia
 Released under the MIT License <http://www.opensource.org/licenses/mit-license.php> 
 */
 
-
-
 function sanitize_file_name( $filename ) {
 	$filename_raw = $filename;
 	$special_chars = array("?", "[", "]", "/", "\\", "=", "<", ">", ":", ";", ",", "'", "\"", "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}", chr(0));
@@ -50,7 +48,18 @@ function sanitize_file_name( $filename ) {
 
 $file_error = -1 ;
 $verifyToken = md5('unique_salt' . $_POST['token_timestamp']);
-if (!empty($_FILES) && $_POST['token'] == $verifyToken) {    
+
+$token_session = $_POST['token'];
+list($token,$session_id) = explode("-",$token_session);
+
+if( !empty($session_id) ) { session_id($session_id); }
+if ( !empty($_FILES) && $token == $verifyToken) 
+{    
+	session_start();
+	$is_user_logged_in = $_SESSION['is_user_logged_in'];
+
+	if( $is_user_logged_in )
+	{
     // get uploaded file informations.
     $wpsiw_file     = $_FILES['wpsiw_file'];
     $file_name      = sanitize_file_name( $wpsiw_file['name'] );
@@ -60,7 +69,6 @@ if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
     $file_size      = $wpsiw_file['size'];
     $file_extension = pathinfo( $file_name, PATHINFO_EXTENSION );
     $upload_path    = $_POST["upload_path"] . $file_name ;
-
 	$fileTypes = array('class');
 	if (in_array($file_extension,$fileTypes)) {
 		if ( $file_error == 0 ) {
@@ -70,7 +78,11 @@ if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
 		}
 	} else {
 		$file_error = 7 ;//'Invalid file type.';
-		
+		}
+	}
+	else
+	{
+		$file_error = 8 ;//'User Not Logged In';
     }
 }
 echo $file_error ;
