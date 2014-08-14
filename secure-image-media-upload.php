@@ -11,17 +11,33 @@
 
 	$session_id = session_id();
 	$token_session = "{$token}-{$session_id}";
+
+
+	$admin_only = $wpsiw_options["settings"]["admin_only"];
+	$allow_uploads= true;
+	if( $admin_only )
+	{
+		global $current_user;
+		$allow_uploads = false;
+		$user_roles = "|".implode("|",$current_user->roles)."|";
+		if( strpos($user_roles,"administrator")>0 ) { $allow_uploads=true; }
+	}
+
 ?>
 
                     <div class="wrap" id="wpsiw_div" title="SecureImage">
 	<div id="wpsiw_message"></div>
 	<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+		<?php if( $allow_uploads ) { ?>
 			<li class="ui-state-default ui-corner-top ui-state-active"><a href="#" class="ui-tabs-anchor" id="tabs-1-bt" >Add New</a></li>
-			<li class="ui-state-default ui-corner-top"><a href="#" class="ui-tabs-anchor" id="tabs-2-bt">Search</a></li>
+			<?php } ?>
+			<li class="ui-state-default ui-corner-top <?php echo ($allow_uploads)?"":"ui-state-active";?>"><a href="#" class="ui-tabs-anchor" id="tabs-2-bt">Search</a></li>
 			<li class="ui-state-default ui-corner-top"><a href="#" class="ui-tabs-anchor" id="tabs-3-bt">Existing Files</a></li>
                             </ul>
 		
+
+		<?php if( $allow_uploads ) { ?>
 		<div id="tabs-1" class="wpsiw_addnew ui-tabs-panel ui-widget-content ui-corner-bottom">
                                 <div class="icon32" id="icon-addnew"><br /></div>
                                 <h2>Add New Class File</h2>
@@ -55,8 +71,8 @@
 			
                                 <div class="clear"></div>
                             </div>
-
-		<div id="tabs-2" class="wpsiw_search ui-tabs-panel ui-widget-content ui-corner-bottom" style="display:none;">
+		<?php } ?>
+		<div id="tabs-2" class="wpsiw_search ui-tabs-panel ui-widget-content ui-corner-bottom" <?php echo ($allow_uploads)?"style=\"display:none;\"":""; ?> >
                                 <div class="icon32" id="icon-search"><br /></div>
                                 <h2>Search File</h2>
                                 <p>

@@ -76,7 +76,8 @@ function wpsiw_file_upload($param){
                           3 => __( "The uploaded file was only partially uploaded" ),
                           4 => __( "No file was uploaded" ),
                           6 => __( "Missing a temporary folder" ),
-                          7 => __( "Upload directory is not writable" )
+                          7 => __( "Upload directory is not writable" ),
+                          8 => __( "User not logged in" )
                    );
                    
 	if ( $file_error == 0 ){
@@ -131,8 +132,6 @@ function wpsiw_file_search($param){
 							    <td> 
 							      <input name='border' id='wpsiw_border' type='text' value='$border' size='3' />
 							    </td>
-							  </tr>
-							  <tr>
 							    <td align='left'>&nbsp;</td>
 							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Color of the border and image backround area. For example use FFFFFF for white and 000000 is for black... without the # symbol.' /></td>
 							    <td align='left'>Border color:</td>

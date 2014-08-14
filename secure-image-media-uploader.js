@@ -189,6 +189,8 @@ jQuery(document).ready(function() {
 		jQuery.post(ajaxurl, ajaxdata, function( param ) {
 			jQuery( "#wpsiw_message" ).html(param);
 			wpsiw_process_setting("setting", "end") ;
+			jQuery('a.sendtoeditor').click();
+			
 		});
 	});
 	

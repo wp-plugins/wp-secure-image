@@ -1,6 +1,6 @@
 <!-- hide JavaScript from non-JavaScript browsers
 
-	//  WP Secure Image - Version 0.9
+	//  WP Secure Image - Version 
 	//  Copyright (c) ArtistScope 1998-2014. All Rights Reserved.
 	//  www.artistscope.com
 	//

@@ -4,7 +4,7 @@ Plugin Name: Secure Image
 Plugin URI: http://www.artistscope.com/secure_image_protection.asp
 Description: Copy protect images by using encrypted images and control web browser access. With Secure Image you can use encrypted images and extend copy protection to prevent image saving while displayed online and stored on the server, even from your webmaster.
 Author: ArtistScope
-Version: 0.9
+Version: 1.0
 Author URI: http://www.artistscope.com/
 
 	Copyright 2014 ArtistScope Pty Limited
@@ -99,6 +99,7 @@ function wpsiw_admin_page_settings() {
 			$upload_path .= "/";
     	    	
         $wpsiw_options['settings'] = array(
+		    'admin_only' => $admin_only,
                                         'upload_path' 	=> $upload_path ,
         				'max_size'	=> (int)$max_size,
                                         'mode'		=> $mode,
@@ -132,6 +133,10 @@ function wpsiw_admin_page_settings() {
     <table class="form-table">
         <p><strong>Default settings applied to all protected pages:</strong></p>
     	<tbody>
+            <tr>
+    		  <th align="left"><label>Allow Admin Only:</label></th>
+	    		  <td align="left"> <input name="admin_only" type="checkbox" value="checked" <?php echo $admin_only; ?>></td>
+    	    </tr>
             <tr>
 	    		  <th align="left"><label>Upload Folder:</label></th>
 	    		  <td align="left"> <input value="<?php echo $upload_path; ?>" name="upload_path" class="regular-text code" type="text"></td>
@@ -480,6 +485,7 @@ function wpsiw_activate () {
 	    	    
         // set default options
         $wpsiw_options['settings'] = array(
+		    'admin_only' => "checked",
                                         'upload_path' => $upload_dir,
         				'max_size'	=> 100,
                                         'mode'          => "demo",
