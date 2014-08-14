@@ -75,7 +75,7 @@ Nothing that will work on all platforms because it’s not possible to control cap
 == Changelog ==
 
 = 1.0 =
-* Tested and verified on WorPress version 3.9.2
+* Tested and verified on WordPress version 3.9.2
 * Added alternative user check in case session logging not supported by webhost.
 * Added settings option to allow uploads by admin only.
 * Upload will progress only on same host IP.
