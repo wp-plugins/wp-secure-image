@@ -4,7 +4,7 @@ Contributors: ArtistScope
 Donate link: http://www.artistscope.com/secure_image_protection.asp
 Tags: protect, secure, encrypt, image
 Requires at least: 3.0.1
-Tested up to: 3.9
+Tested up to: 4.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,10 @@ Nothing that will work on all platforms because it’s not possible to control cap
 4. A file list can be displayed showing all Secure Image class files that have been uploaded.
 
 == Changelog ==
+
+= 1.1 =
+* Tested and verified on WordPress version 4.0
+* Corrected upload form layout.
 
 = 1.0 =
 * Tested and verified on WordPress version 3.9.2

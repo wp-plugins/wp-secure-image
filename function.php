@@ -132,9 +132,11 @@ function wpsiw_file_search($param){
 							    <td> 
 							      <input name='border' id='wpsiw_border' type='text' value='$border' size='3' />
 							    </td>
+								</tr>
+								<tr>
 							    <td align='left'>&nbsp;</td>
 							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Color of the border and image backround area. For example use FFFFFF for white and 000000 is for black... without the # symbol.' /></td>
-							    <td align='left'>Border color:</td>
+							    <td align='left' nowrap>Border color:</td>
 							    <td> 
 							      <input name='border_color' id='wpsiw_border_color' type='text' value='$border_color' size='7' />
 							    </td>
@@ -142,7 +144,7 @@ function wpsiw_file_search($param){
 							  <tr>
 							    <td align='left'>&nbsp;</td>
 							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Color of the text message that is displayed in the image area as the image downloads.' /></td>
-							    <td align='left'>Text color:</td>
+							    <td align='left' nowrap>Text color:</td>
 							    <td> 
 							      <input name='text_color' id='wpsiw_text_color' type='text' value='$text_color' size='7' />
 							    </td>
@@ -158,7 +160,7 @@ function wpsiw_file_search($param){
 							  <tr>
 							    <td align='left'>&nbsp;</td>
 							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Check this box to add Java version detection to the page.' /></td>
-							    <td align='left'>Java Check:</td>
+							    <td align='left' nowrap>Java Check:</td>
 							    <td> 
 							      <input name='java_check' id='wpsiw_java_check' type='checkbox' value='1' $java_check />
 							    </td>
@@ -166,7 +168,7 @@ function wpsiw_file_search($param){
 							  <tr>
 							    <td align='left'>&nbsp;</td>
 							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Set the message to display as this encrypted image loads.' /></td>
-							    <td align='left'>Loading message:&nbsp;</td>
+							    <td align='left' nowrap>Loading message:&nbsp;</td>
 							    <td> 
 							      <input name='loading_message' id='wpsiw_loading_message' type='text' value='$loading_message' size='30' />
 							    </td>
@@ -182,7 +184,7 @@ function wpsiw_file_search($param){
 							  <tr>
 							    <td align='left'>&nbsp;</td>
 							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Set the target frame for the hyperlink, for example _top' /></td>
-							    <td align='left'>Target frame:</td>
+							    <td align='left' nowrap>Target frame:</td>
 							    <td> 
 							      <input value='$target' name='target' id='wpsiw_target' type='text' size='15' />
 							    </td>
