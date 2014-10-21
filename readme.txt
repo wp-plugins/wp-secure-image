@@ -74,6 +74,9 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 1.2 =
+* Fixed bug found with some webhosts with limited support.
+
 = 1.1 =
 * Tested and verified on WordPress version 4.0
 * Corrected upload form layout.

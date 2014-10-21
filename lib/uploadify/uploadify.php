@@ -4,16 +4,18 @@ Uploadify
 Copyright (c) 2012 Reactive Apps, Ronnie Garcia
 Released under the MIT License <http://www.opensource.org/licenses/mit-license.php> 
 */
-if(
-	strtoupper($_SERVER['HTTP_USER_AGENT']) !== strtoupper('Shockwave Flash') || 
-	$_SERVER['REQUEST_URI'] 	!== $_SERVER['PHP_SELF']
-  )
-{	
+/* if(strtoupper($_SERVER['HTTP_USER_AGENT']) !== strtoupper('Shockwave Flash') || $_SERVER['REQUEST_URI'] 	!== $_SERVER['PHP_SELF']) {	
 	echo "8"; die;//'User Not Logged In';	
+} */
+
+require_once('../../../../../wp-load.php');
+if(! is_user_logged_in() && is_admin()) {	
+	echo "8";
+	die;//'User Not Logged In';	
 }
 
 
-function sanitize_file_name( $filename ) {
+function wpcs_image_sanitize_file_name( $filename ) {
 	$filename_raw = $filename;
 	$special_chars = array("?", "[", "]", "/", "\\", "=", "<", ">", ":", ";", ",", "'", "\"", "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}", chr(0));
 	$filename = str_replace($special_chars, '', $filename);
@@ -60,17 +62,17 @@ $verifyToken = md5('unique_salt' . $_POST['token_timestamp']);
 $token_session = $_POST['token'];
 list($token,$session_id) = explode("-",$token_session);
 
-if( !empty($session_id) ) { session_id($session_id); }
-if ( !empty($_FILES) && $token == $verifyToken) 
-{    
+if(! empty($session_id) ) {
+  session_id($session_id);
+}
+if (! empty($_FILES) && $token == $verifyToken) {
 	session_start();
 	$is_user_logged_in = $_SESSION['is_user_logged_in'];
 
-	if( empty($session_id) || $is_user_logged_in )
-	{
+	if( ! empty($session_id) ) {
     // get uploaded file informations.
     $wpsiw_file     = $_FILES['wpsiw_file'];
-    $file_name      = sanitize_file_name( $wpsiw_file['name'] );
+    $file_name      = wpcs_image_sanitize_file_name( $wpsiw_file['name'] );
     $file_type      = $wpsiw_file['type'];
     $file_tmp_name  = $wpsiw_file['tmp_name'];
     $file_error     = $wpsiw_file['error'];
@@ -86,10 +88,8 @@ if ( !empty($_FILES) && $token == $verifyToken)
 		}
 	} else {
 		$file_error = 7 ;//'Invalid file type.';
-		}
-	}
-	else
-	{
+    }
+	} else {
 		$file_error = 8 ;//'User Not Logged In';
     }
 }

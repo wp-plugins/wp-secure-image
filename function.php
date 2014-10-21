@@ -132,8 +132,8 @@ function wpsiw_file_search($param){
 							    <td> 
 							      <input name='border' id='wpsiw_border' type='text' value='$border' size='3' />
 							    </td>
-								</tr>
-								<tr>
+							  </tr>
+							  <tr>
 							    <td align='left'>&nbsp;</td>
 							    <td align='left'><img src='" . WPSIW_PLUGIN_URL . "images/help-24-30.png' border='0' alt='Color of the border and image backround area. For example use FFFFFF for white and 000000 is for black... without the # symbol.' /></td>
 							    <td align='left' nowrap>Border color:</td>
@@ -242,6 +242,7 @@ function wpsiw_setting_save($param){
 
 function _get_wpsiw_uploadfile_list(){
 	$listdata = array() ;
+	chmod(ABSPATH . 'wp-content/uploads/secure-image', 0775);
 	$file_list = scandir( WPSIW_UPLOAD_PATH );
 	
 	foreach ($file_list as $file) {
