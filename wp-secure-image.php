@@ -4,10 +4,10 @@ Plugin Name: Secure Image
 Plugin URI: http://www.artistscope.com/secure_image_protection.asp
 Description: Copy protect images by using encrypted images and control web browser access. With Secure Image you can use encrypted images and extend copy protection to prevent image saving while displayed online and stored on the server, even from your webmaster.
 Author: ArtistScope
-Version: 1.3
+Version: 1.4
 Author URI: http://www.artistscope.com/
 
-	Copyright 2014 ArtistScope Pty Limited
+	Copyright 2015 ArtistScope Pty Limited
 
 
 	This program is free software: you can redistribute it and/or modify
