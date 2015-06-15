@@ -74,6 +74,9 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 1.5 =
+* ArtistScopeViewer.jar codesigned for 2015-2018.
+
 = 1.4 =
 * tested for comptibility with WP 4.2.
 
