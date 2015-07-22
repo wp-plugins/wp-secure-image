@@ -74,6 +74,9 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 1.6 =
+* Added selection for the ASPS web browser.
+
 = 1.5 =
 * ArtistScopeViewer.jar codesigned for 2015-2018.
 

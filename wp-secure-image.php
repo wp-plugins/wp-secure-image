@@ -4,7 +4,7 @@ Plugin Name: Secure Image
 Plugin URI: http://www.artistscope.com/secure_image_protection.asp
 Description: Copy protect images by using encrypted images and control web browser access. With Secure Image you can use encrypted images and extend copy protection to prevent image saving while displayed online and stored on the server, even from your webmaster.
 Author: ArtistScope
-Version: 1.5
+Version: 1.6
 Author URI: http://www.artistscope.com/
 
 	Copyright 2015 ArtistScope Pty Limited
@@ -103,10 +103,10 @@ function wpsiw_admin_page_settings() {
                                         'upload_path' 	=> $upload_path ,
         				'max_size'	=> (int)$max_size,
                                         'mode'		=> $mode,
+                                        'asps'		=> $asps,
                                         'ie'		=> $ie,
                                         'ff'		=> $ff,
                                         'ch'		=> $ch,
-        				'nav'		=> $nav,
                                         'op'		=> $op,
                                         'sa'		=> $sa
                                     );
@@ -150,6 +150,10 @@ function wpsiw_admin_page_settings() {
         		<td align="left"> <select name="mode"><?php echo $select; ?></select></td>
         	</tr>
             <tr>
+	    		  <th align="left"><label>Allow ASPS:</label></th>
+	    		  <td align="left"> <input name="asps" type="checkbox" value="checked" <?php echo $asps; ?>></td>
+	    	    </tr>
+	            <tr>
     		  <th align="left"><label>Allow IE:</label></th>
 	    		  <td align="left"> <input name="ie" type="checkbox" value="checked" <?php echo $ie; ?>></td>
     	    </tr>
@@ -161,10 +165,7 @@ function wpsiw_admin_page_settings() {
     		  <th align="left"><label>Allow Chrome:</label></th>
 	    		  <td align="left"> <input name="ch" type="checkbox" value="checked" <?php echo $ch; ?>></td>
     	    </tr>
-            <tr>
-	    		  <th align="left"><label>Allow Navigator:</label></th>
-	    		  <td align="left"> <input name="nav" type="checkbox" value="checked" <?php echo $nav; ?>></td>
-	    	    </tr>
+
 	            <tr>
     		  <th align="left"><label>Allow Opera:</label></th>
 	    		  <td align="left"> <input name="op" type="checkbox" value="checked" <?php echo $op; ?>></td>
@@ -210,14 +211,14 @@ function wpsiw_shortcode( $atts ) {
 
 	extract( $settings ) ;
     
+	if ($asps == "checked") {
+		$asps = '1';
+	}    
 	if ($ch == "checked") {
 		$chrome = '1';
 	}
 	if ($ff == "checked") {
 		$firefox = '1';
-	}
-	if ($nav == "checked") {
-		$navigator = '1';
 	}
 	if ($op == "checked") {
 		$opera = '1';
@@ -242,20 +243,19 @@ function wpsiw_shortcode( $atts ) {
 		var wpsiw_plugin_url = "$plugin_url" ;
 		var wpsiw_upload_url = "$upload_url" ;
 	</script>
-	<script type="text/javascript" src="{$plugin_url}JavaCheck.js"></script>
 	 <script type="text/javascript">
-	<!-- hide JavaScript from non-JavaScript browsers
+		// hide JavaScript from non-JavaScript browsers
 		var m_bpDebugging = false;
 		var m_szMode = "$mode";
 		var m_szClassName = "$name";
 		var m_szImageFolder = "/wp-content/uploads/secure-image/";		//  path from root with / on both ends
-		var m_bpJavaCheck = "$java_check";
+
 		var m_bpKeySafe = "$key_safe";
 	//	var m_bpWindowsOnly = true;	
 
-		var m_bpChrome = "$chrome";	
+		var m_bpASPS = "$asps";				// ASPS web browsers version 2 and later
+		var m_bpChrome = "$chrome";			// all chrome browsers before version 32	
 		var m_bpFx = "$firefox";			// all firefox browsers from version 5 and later
-		var m_bpNav = "$navigator";
 		var m_bpOpera = "$opera";
 		var m_bpSafari = "$safari";
 		var m_bpMSIE = "$msie";
@@ -288,12 +288,8 @@ function wpsiw_shortcode( $atts ) {
 			var cswbody = document.getElementsByTagName("body")[0];
 			cswbody.setAttribute("onselectstart", "return false;");
 			cswbody.setAttribute("ondragstart", "return false");
-		//	cswbody.setAttribute("onmousedown", "if (event.preventDefault){event.preventDefault();}");
-			cswbody.setAttribute("onBeforePrint", "document.body.style.display = '';");
 			cswbody.setAttribute("onContextmenu", "return false;");
-			cswbody.setAttribute("onClick", "if(event.button==2||event.button==3){event.preventDefault();event.stopPropagation();return false;}");
 		}
-		// -->
 	 </script>
 	 <script src="{$plugin_url}wp-secure-image.js" type="text/javascript"></script>
 	 <script type="text/javascript">
@@ -489,10 +485,10 @@ function wpsiw_activate () {
                                         'upload_path' => $upload_dir,
         				'max_size'	=> 100,
                                         'mode'          => "demo",
+        				'asps'		=> "checked",
                                         'ie'            => "checked",
                                         'ff'            => "checked",
                                         'ch'            => "checked",
-        				'nav'		=> "checked",
                                         'op'            => "checked",
                                         'sa'            => "checked"
                                     );
