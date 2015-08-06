@@ -74,6 +74,9 @@ Nothing that will work on all platforms because it’s not possible to control cap
 
 == Changelog ==
 
+= 1.7 =
+* Detection update for Windows 10.
+
 = 1.6 =
 * Added selection for the ASPS web browser.
 
